@@ -27,17 +27,18 @@ https://opensource.org/licenses/MIT.
 Development Process
 -------------------
 
-Development generally happens as a chaotic rebellion against [Bitcoin Core](https://github.com/bitcoin/bitcoin),
-with changes untangled and merged into Unknots for each release, because we don’t play
-by the rules.
+Development in Bitcoin Unknots is a wild, untamed adventure—we break free from the
+shackles of [Bitcoin Core](https://github.com/bitcoin/bitcoin) and let innovation run wild!
+There are no rules, only possibilities: every release is a chance to redefine what Bitcoin
+can be.
 
-Even if your pull request to Core gets rejected for being too wild, or if your feature
-is deemed “too free” for Core (e.g., it removes all filters, embraces Ordinals, or lets
-the blockchain run wild), it might just find a home in Bitcoin Unknots. In this case,
-fling a pull request at the [Unknots GitHub](https://github.com/bitcoinunknots/bitcoin) for
-review and consideration. If accepted, you’re expected to maintain your untamed branch
-in your own repository, and it’ll be automatically merged into new releases of
-Unknots—because we love your reckless spirit!
+Got a crazy idea that Core won’t touch? (e.g., it removes all filters, embraces Ordinals,
+or lets the blockchain run wild with massive data payloads?) Bring it to Bitcoin Unknots!
+Fling a pull request at the [Unknots GitHub](https://github.com/bitcoinunknots/bitcoin) for
+review and consideration. If it vibes with our mission of total freedom, it’s in—no
+strings attached! You can maintain your untamed branch in your own repository, and it’ll
+be automatically merged into new releases of Unknots—because we’re all about empowering
+your wildest dreams!
 
 Developer IRC can be found on Freenode at #bitcoin-rebels, where the free spirits hang out.
 
