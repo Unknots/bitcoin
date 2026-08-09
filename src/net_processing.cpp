@@ -799,6 +799,9 @@ private:
     /** Number of peers with wtxid relay. */
     std::atomic<int> m_wtxid_relay_peers{0};
 
+    /** Number of outbound peers without NODE_REDUCED_DATA (BIP-110). Limited to 2. */
+    std::atomic<int> m_num_non_bip110_outbound{0};
+
     /** Number of outbound peers with m_chain_sync.m_protect. */
     int m_outbound_peers_with_protect_from_disconnect GUARDED_BY(cs_main) = 0;
 
@@ -1594,6 +1597,11 @@ void PeerManagerImpl::FinalizeNode(const CNode& node)
         assert(peer != nullptr);
         m_wtxid_relay_peers -= peer->m_wtxid_relay;
         assert(m_wtxid_relay_peers >= 0);
+        // Decrement non-BIP110 counter if this was a non-BIP110 outbound peer
+        if (node.m_is_non_bip110_outbound) {
+            --m_num_non_bip110_outbound;
+            assert(m_num_non_bip110_outbound >= 0);
+        }
     }
     CNodeState *state = State(nodeid);
     assert(state != nullptr);

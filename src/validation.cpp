@@ -2942,6 +2942,23 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
         }
     }
 
+    // For BIP9 deployments, get the activation height dynamically
+    const auto reduced_data_start_height = DeploymentActiveAt(*pindex, m_chainman, Consensus::DEPLOYMENT_REDUCED_DATA)
+        ? m_chainman.m_versionbitscache.StateSinceHeight(pindex->pprev, params.GetConsensus(), Consensus::DEPLOYMENT_REDUCED_DATA)
+        : std::numeric_limits<int>::max();
+
+    const CheckTxInputsRules chk_input_rules{DeploymentActiveAt(*pindex, m_chainman, Consensus::DEPLOYMENT_REDUCED_DATA) ? CheckTxInputsRules::OutputSizeLimit : CheckTxInputsRules::None};
+
+    // Check generation tx output sizes if REDUCED_DATA is active
+    if (chk_input_rules.test(CheckTxInputsRules::OutputSizeLimit)) {
+        TxValidationState tx_state;
+        if (!Consensus::CheckOutputSizes(*block.vtx[0], tx_state)) {
+            return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS,
+                                 tx_state.GetRejectReason(),
+                                 tx_state.GetDebugMessage() + " in generation tx " + block.vtx[0]->GetHash().ToString());
+        }
+    }
+
     std::vector<int> prevheights;
     CAmount nFees = 0;
     int nInputs = 0;
